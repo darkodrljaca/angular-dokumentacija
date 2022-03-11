@@ -1,0 +1,6 @@
+link: https://stackoverflow.com/questions/49699067/property-has-no-initializer-and-is-not-definitely-assigned-in-the-construc
+
+
+Just go to tsconfig.json and set
+
+"strictPropertyInitialization": false

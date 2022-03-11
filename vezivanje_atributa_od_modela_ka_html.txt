@@ -1,0 +1,17 @@
+Vezivajne atributa html dokumenta za atribute model klase komponente.
+
+html sablon:
+
+<input
+  type="button"
+  value="Dohvati informacije"
+  class="btn btn-primary"
+  [disabled]="!dugmeJeUkljuceno"
+/>
+
+
+model klasa:
+dugmeJeUkljuceno: boolean = false;
+
+note: atribut html-a koji vezujemo za atribut model klase se nalazi u 
+      uglastim zagradama.

@@ -1,0 +1,21 @@
+html sablon:
+
+<div [ngSwitch]="brojPolozenihPredmeta()">
+    <div *ngSwitchCase="0">Nijedan predmet nije polozen</div>
+    <div *ngSwitchCase="1">Uspesno je polozen 1 predmet</div>
+    <div *ngSwitchCase="2">Uspesno su polozena 2 predmeta</div>
+    <div *ngSwitchDefault>Polozeno je vise od 2 predmeta</div>
+  </div>
+
+
+model:
+
+public brojPolozenihPredmeta(): number {
+    return this.ocene.filter((ocena) => ocena > 5).length;
+  }
+
+
+note:
+
+ngSwitch nema zvezdicu zato sto on ne menja strukturu dom elemenata,
+dok case-ovi imaju - uticu na strukturu dom elementa.

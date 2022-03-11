@@ -1,0 +1,12 @@
+1. instalacija:
+   npm install bootstrap jquery popper.js
+2. otvoriti angular.json datoteku i u niz projects.naziv-projekta.architect.build.options.styles 
+   dodati nisku:
+   "node_modules/bootstrap/dist/css/bootstrap.min.css". 
+   Ova niska zapravo predstavlja
+   putanju na kojoj je instaliran bootstrap paket koji ce biti koriscen za stilizovanje nase angular
+   palikacije. 
+   U niz projects.naziv-projekta.architect.build.options.scripts dodati niske:
+   "node_modules/jquery/dist/jquery.min.js",
+   "node_modules/popper.js/dist/popper.min.js",
+   "node_modules/bootstrap/dist/js/bootstrap.min.js"

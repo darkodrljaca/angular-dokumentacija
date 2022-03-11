@@ -1,0 +1,18 @@
+if else direktiva:
+"Prikazi sve elemente iz korpe ako nije prazna. Ako je prazna ispisi poruku":
+
+<h2>Checkout</h2>
+<hr>
+
+<div *ngIf="items.length > 0; else noItems">
+    <p>Your current cart includes these items:</p>
+    <div class="alert alert-info" *ngFor="let product of items">
+        <h4>{{ product.name }}</h4>
+        <hr>
+        <h6>{{ product.price | currency: 'EUR' }}</h6>
+    </div>
+</div>
+
+<ng-template #noItems>
+    <p>This cart is empty</p>
+</ng-template>

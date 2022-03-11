@@ -1,0 +1,55 @@
+Ukoliko dodje do promene u modelu sablon ce biti azuriran i ako
+dodje do promene u sablonu model ce biti azuriran.
+Sintaksa:
+- U HTML sablonu se navode i obicne zagrade i uglaste zagrade izmedju kojih se nalazi
+  Angular atribut ngModel.
+- Vrednost je naziv podatka u komponenti cija ce vrednost biti dvosmerno vezana za vrednost
+  HTML elementa za koji se vrsi dvosmerno vezivanje.
+Primeri:
+<input [(ngModel)] = "imePrezime">
+
+Posto ngModel ne dolazi iz DOM stabla, nego iz Angulara potrebno je:
+- otvoriti app.module.ts
+- importovati modul: import { FormsModule } from '@angular/forms';
+- zatim taj modul referisati u imoprts nizu:
+  imports: [
+     FormsModule	
+  ] 
+
+Primer (iz student7 komponente):
+
+Html sablon:
+
+<p>Ime: {{ ime }}</p>
+
+<div class="form-group">
+  <label for="ime">Ime:</label>
+  <input
+    id="ime"
+    type="text"
+    class="form-control"
+    [disabled]="unosJeOnemogucen()"
+    (keyup)="onIzmeniIme($event)"
+  />
+</div>
+
+<div class="form-group">
+  <label for="d_ime">Dvostruko povezano ime:</label>
+  <input
+    id="d_ime"
+    type="text"
+    class="form-control"
+    [disabled]="unosJeOnemogucen()"
+    [(ngModel)]="ime"
+  />
+</div>
+
+Model:
+
+ime: string;
+
+note:
+Kada unosimo neki tekst u input id="d_ime" automatski se update-uje ime u model klasi.
+Takodje se i azurira paragraf, sto je posledica interpolacije niskih (paragraf je samo dokaz da 
+se azurirao atribut ime u modelu).
+

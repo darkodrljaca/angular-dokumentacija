@@ -1,0 +1,32 @@
+
+Primer 1:
+
+html sablon:
+
+<h6>Ocene:</h6>
+  <ol>
+    <li *ngFor="let ocenaIzNiza of ocene">
+      {{ ocenaIzNiza }}
+    </li>
+  </ol>
+
+
+model:
+
+public ocene: number[] = [];
+
+Primer 2 (sa prikazivanjem index-a niza):
+
+html sablon:
+
+<h6>Ocene:</h6>
+<p *ngFor="let ocenaIzNiza of ocene; let indeks = index">
+ {{ indeks }}.ocena je: {{ ocenaIzNiza }}
+</p>
+
+model:
+public ocene: number[] = [];
+
+
+
+

@@ -1,0 +1,48 @@
+Prikazivanje i uklanjanje paragrafa kada korisnik cekira ili uncekira
+checkbox (ngIf strukturna direktiva):
+
+html sablon:
+
+<div class="form-check">
+ <input
+  type="checkbox"
+  class="form-check-input"
+  id="prosekCheck"
+  (change)="onPromeniPrikazivanjeProseka()"
+ />
+ <label for="prosekCheck" class="form-ckeck-label">Prikazi prosek</label>
+</div>
+
+<p *ngIf="prikaziProsek; else prosekJeIskljucen">Prosek: {{ prosek() }}</p>
+<ng-template #prosekJeIskljucen>
+ <p>Kliknite na checkbox iznad da pogledate prosek</p>
+</ng-template>
+
+model:
+
+public prikaziProsek: boolean;
+
+constructor() {
+ this.ime =
+  NgifTestComponent._listaImena[
+   Math.floor(Math.random() * NgifTestComponent._brojImena)
+  ];
+ this.prikaziProsek = false;
+}
+
+public prosek(): number {
+ return this._ocene.length === 0
+ ? 0
+ : this._ocene.reduce((prev, next) => prev + next, 0) / this._ocene.length;
+}
+
+public onPromeniPrikazivanjeProseka(): void {
+ this.prikaziProsek = !this.prikaziProsek;
+}
+
+
+
+
+
+
+

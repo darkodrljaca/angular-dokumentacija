@@ -1,0 +1,9 @@
+1. u konstruktor ubrizgati servis ActivatedRout (from @angular/router)
+2. servis ActivatedRout sadrzi svojstvo paramMap, tip ovog svojstva je observable od objekta tipa paramMap. Posto je ovo observable odnosno rxjs tok da bismo ga koristili mi moramo da se pretplatimo na taj tok (subscribe)
+
+constructor(private productService: ProductService,
+              private route: ActivatedRoute) { 
+      this.route.paramMap.subscribe(params => {
+        const pId: number = Number(params.get('productId'));
+      });          
+  }

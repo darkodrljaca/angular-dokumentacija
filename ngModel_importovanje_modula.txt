@@ -1,0 +1,7 @@
+Posto ngModel ne dolazi iz DOM stabla, nego iz Angulara potrebno je:
+- otvoriti app.module.ts
+- importovati modul: import { FormsModule } from '@angular/forms';
+- zatim taj modul referisati u imoprts nizu:
+  imports: [
+     FormsModule	
+  ]

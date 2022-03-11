@@ -1,0 +1,37 @@
+html sablon:
+
+ <p [ngStyle]="izracunajStil()">Prosek: {{ prosek() }}</p>
+
+
+model:
+
+public izracunajStil() {
+    let colorChoise: string;
+    let fontSizeChoise: string;
+    const prosek = this.prosek();
+
+    if (prosek >= 9) {
+      colorChoise = 'green';
+      fontSizeChoise = '20px';
+    } else if (prosek >= 8) {
+      colorChoise = 'blue';
+      fontSizeChoise = '19px';
+    } else if (prosek >= 7) {
+      colorChoise = 'cyan';
+      fontSizeChoise = '18px';
+    } else if (prosek >= 6) {
+      colorChoise = 'yelow';
+      fontSizeChoise = '17px';
+    } else if (prosek >= 5) {
+      colorChoise = 'red';
+      fontSizeChoise = '16px';
+    } else {
+      colorChoise = 'black';
+      fontSizeChoise = '15px';
+    }
+
+    return {
+      color: colorChoise,
+      fontSize: fontSizeChoise,
+    };
+  }

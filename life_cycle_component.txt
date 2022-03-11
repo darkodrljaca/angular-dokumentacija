@@ -1,0 +1,57 @@
+import { Component, DoCheck, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Student } from './../models/student.model';
+import { PogresanSmerError } from './../models/PogresanSmerError';
+
+@Component({
+  selector: 'app-student',
+  templateUrl: './student.component.html',
+  styleUrls: ['./student.component.css']
+})
+export class StudentComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
+  @Input('studentData')
+  public student: Student;
+
+  constructor() {
+    console.log("constructor");
+    console.log(this.student);
+   }
+
+  ngOnInit(): void {
+    console.log("ngOnInit");
+    console.log(this.student);
+  }
+
+  ngOnChanges(simpleChanges: SimpleChanges) {
+    console.log("ngOnChanges");
+    console.log(simpleChanges);
+  }
+
+  ngDoCheck() {
+    console.log("ngDoCheck");
+    console.log("Doslo je do ciklusa detekcije promena!");
+  }
+
+  ngOnDestroy() {
+    console.log("ngOnDestroy");
+    console.log("Komponenta je unistena!");
+  }
+
+  dohvatiUrlSlike(): string {
+    switch (this.student.inicijalSmera) {
+      case 'I':
+        return 'assets/blue.png';
+      case 'M':
+        return 'assets/red.png';
+      case 'A':
+        return 'assets/green.png';    
+      case 'T':
+        return 'assets/orange.png';  
+      default:
+        throw new PogresanSmerError(
+          `Nepoznat inicijal smera ${this.student.inicijalSmera}`
+        );  
+    }
+  }
+
+}
+

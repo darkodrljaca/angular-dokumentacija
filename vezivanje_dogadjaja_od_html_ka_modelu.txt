@@ -1,0 +1,45 @@
+Vezivanje dogadjaja predstavlja mehanizam kojim se reaguje na promene u html sablonu 
+radi azuriranja modela.
+Ovaj mehanizam je jednosmeran i smer je od pogleda ka modelu. Izmene u html sablonu
+ce uticati na podatke u modelu.
+Vrednost je poziv metoda komponente koji ce biti izvrsen pri ispaljivanju tog
+HTML dogadjaja nad tim HTML elementom.
+Primeri:
+<input (click)="onClick()">
+<input
+  type="button"
+  value="Dohvati informacije"
+  class="btn btn-primary"
+  [disabled]="!dugmeJeUkljuceno"
+  (click)="onDohvatiInformacije()"
+/>
+<input (input)="onInputChangeValue($event)">
+$event - predstavlja objekat tog dogadjaja koji je ispaljen.
+
+Primer sa $event. U toku kucanja u input field, paragraf automatski ispisuje to
+sto se kuca.
+Html komponenta:
+<p>Ime: {{ ime }}</p>
+
+<div class="form-group">
+  <label for="ime">Ime:</label>
+  <input
+    id="ime"
+    type="text"
+    class="form-control"
+    [disabled]="unosJeOnemogucen()"
+    (keyup)="onIzmeniIme($event)"
+  />
+</div>
+
+Model komponenta:
+
+ime: string;
+
+// event je tipa Interface event:
+  onIzmeniIme(event: Event): void {
+    // Kastujemo na HtmlInputElement tip (dva nacina kastovanja):
+    // this.ime = (<HTMLInputElement>event.target).value;
+    this.ime = (event.target as HTMLInputElement).value;
+  }      
+

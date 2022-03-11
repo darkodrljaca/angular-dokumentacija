@@ -1,0 +1,8 @@
+Html sablon uzima podatke iz modela:
+
+<p>Ime: {{ ime }}</p>
+<p>Prezime: {{ prezime }}</p>
+
+ime i prezime su atributi klase modela komponente.
+
+

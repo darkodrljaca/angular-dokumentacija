@@ -1,0 +1,22 @@
+
+html sablon:
+<div [ngClass]="izracunajKlasu()">
+</div>
+
+model:
+
+
+
+public izracunajKlasu() {
+    const prosek = this.prosek();
+    return {
+      alert: true,
+      'alert-success': prosek >= 9,
+      'alert-primary': prosek >= 8 && prosek < 9,
+      'alert-info': prosek >= 7 && prosek < 8,
+      'alert-warning': prosek >= 6 && prosek < 7,
+      'alert-danger': prosek >= 5 && prosek < 6,
+      'alert-light': prosek === 0,
+    };
+  }
+

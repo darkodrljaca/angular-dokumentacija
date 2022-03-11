@@ -1,9 +1,33 @@
+I:
+
 1. u konstruktor ubrizgati servis ActivatedRout (from @angular/router)
 2. servis ActivatedRout sadrzi svojstvo paramMap, tip ovog svojstva je observable od objekta tipa paramMap. Posto je ovo observable odnosno rxjs tok da bismo ga koristili mi moramo da se pretplatimo na taj tok (subscribe)
 
-constructor(private productService: ProductService,
-              private route: ActivatedRoute) { 
-      this.route.paramMap.subscribe(params => {
+private paramMapSub: Subscription;
+
+// http://localhost:4200/products/:productId
+  constructor(private route: ActivatedRoute) {               
+      this.paramMapSub = this.route.paramMap.subscribe(params => {
         const pId: number = Number(params.get('productId'));
-      });          
+        this.product = this.productService.getProducts()
+          .filter(p => p.productId === pId)[0];
+      });                
   }
+
+  // Ovaj kod u principu i nece biti potreban zato sto angular
+  // automatski uklanja pretplate - sprecava curenje memorije:
+  ngOnDestroy() {
+    if(this.paramMapSub != null) {
+      this.paramMapSub.unsubscribe();
+      // this.paramMapSub = null;
+    }
+  }
+
+
+II: Drugi nacin je preko metode snapshot od ActivatedRoute klase:
+
+    constructor(private route: ActivatedRoute) {}
+    
+    ngOnInit() {
+      let id: number = Number(this.route.snapshot.params['id']);          
+    }

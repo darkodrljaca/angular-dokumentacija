@@ -1,0 +1,29 @@
+
+constructor(private wineService: WineService) { }
+
+ngOnInit(): void {                        
+    let obs: Observable<WineSearchList> = this.wineService.getAll(this.params);
+    obs.subscribe({
+        next: (odgovorSaServera: WineSearchList) => {                        
+            this.wineList = odgovorSaServera.wineLista;
+            this.count = odgovorSaServera.count;                
+            this.pageCount = Math.ceil(this.count/PAGE_SIZE);                                                
+        },
+        error: (err: any) => {
+            console.log(err.statusText);        
+        }
+    });         
+}
+
+public onWineDeleted(id: number): void {
+    let obs: Observable<Wine> = this.wineService.remove(id);
+    obs.subscribe({
+        next: (odgovor: any) => {                  
+            this.ngOnInit();        
+        },
+        error: (err: any) => {
+            alert(err.statusText);        
+        }
+    });
+}
+

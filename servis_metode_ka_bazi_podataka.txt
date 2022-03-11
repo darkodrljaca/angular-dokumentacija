@@ -1,0 +1,80 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
+
+const baseUrl = "http://localhost:3000/api/wines";
+
+constructor(private http: HttpClient) {}
+
+getAll(params: any): Observable<WineSearchList> {
+    let queryParams = {};
+    if(params) {
+        queryParams = {
+            params: new HttpParams()
+            .set("pageSize", params.pageSize && params.pageSize.toString() || "")
+            .set("page", params.page && params.page.toString() || "")
+            .set("filter", params.filter && JSON.stringify(params.filter) || "")
+            .set("sort", params.sort && params.sort.toString() || "")
+            .set("sortDirection", params.sortDirection && params.sortDirection.toString() || "")
+        }
+    }
+    let obs: Observable<WineSearchList> = this.http.get(baseUrl, queryParams).pipe(
+        map(
+            (jsonOdgovor: any) => {                                        
+                let odgovor = new WineSearchList(jsonOdgovor)
+                return odgovor;
+            }
+        )
+    );
+    return obs;
+}
+
+get(id: number): Observable<Wine> {
+		let obs: Observable<Wine> = this.http.get(baseUrl + "/" + id).pipe(
+            map(
+                (jsonOdgovor: any) => {
+                    let odgovor = new Wine(jsonOdgovor)
+                    return odgovor;
+                }
+            )
+        );
+        return obs;
+	}
+
+	add(newWine: Wine): Observable<Wine> {
+		this.lastId += 1;
+		newWine._id = this.lastId;	
+		let obs: Observable<Wine> = this.http.post<any>(baseUrl, newWine).pipe(
+            map(
+                (jsonOdgovor: any) => {
+                    let odgovor = new Wine(jsonOdgovor)
+                    return odgovor;
+                }
+            )
+        );
+        return obs;
+	}
+
+	update(wine: Wine, id: number): Observable<Wine> {
+		let obs: Observable<Wine> = this.http.put<any>(baseUrl+"/"+id, wine).pipe(
+            map(
+                (jsonOdgovor: any) => {
+                    let odgovor = new Wine(jsonOdgovor)
+                    return odgovor;
+                }
+            )
+        );
+        return obs;
+	}
+
+	remove(id: number): Observable<Wine> {
+		let obs: Observable<Wine> = this.http.delete("http://localhost:3000/api/wines/"+id).pipe(
+            map(
+                (jsonOdgovor: any) => {
+                    let odgovor = new Wine(jsonOdgovor)
+                    return odgovor;
+                }
+            )
+        );
+        return obs;
+	}
+
+

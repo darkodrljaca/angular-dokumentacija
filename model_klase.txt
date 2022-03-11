@@ -1,0 +1,31 @@
+export class Wine {
+	_id: number;
+	name: string;
+	description: string;
+	year: number;	
+
+	constructor(obj?: any){
+		this._id = obj && obj._id || 0;
+		this.name = obj && obj.name || "";
+		this.description = obj && obj.description || "";
+		this.year = obj && obj.year || "";		
+	}
+}
+
+--------------------------------------------------------------------
+
+import { Wine } from "./wine.model";
+
+export class WineSearchList {
+
+    count: number;
+    wineLista: Wine[];
+    
+    constructor(obj?: any) {
+        this.count = obj && obj.count || 0;
+        this.wineLista = obj && obj.results.map((elem: any) => {
+            return new Wine(elem);
+        }) || [];            
+    }        
+
+}

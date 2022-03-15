@@ -1,0 +1,167 @@
+U prvom primeru server vraca count: number i niz objekata vino. Tako da pravimo dva modela: model vina i model 
+koji ce imati atrbut count i atribut od niza vina.
+U drugom primeru server vraca samo niz objekata skijalista. Tako da pravimo samo jedan model ResortInfo.
+
+1. Example with model and model-list
+
+wine.model.ts:
+
+export class Wine {
+	_id: number;
+	name: string;
+	description: string;
+	year: number;
+	grapes: string;
+	country: string;
+	region: string;
+	picture: string;
+
+	constructor(obj?: any){
+		this._id = obj && obj._id || null;
+		this.name = obj && obj.name || null;
+		this.description = obj && obj.description || null;
+		this.year = obj && obj.year || null;
+		this.grapes = obj && obj.grapes || null;
+		this.country = obj && obj.country || null;
+		this.region = obj && obj.region || null;
+		this.picture = obj && obj.picture || null;
+	}
+}
+
+----------------------------------------------------------------
+
+wine-list.model.ts:
+
+import { Wine } from "./wine.model";
+
+export class WineSearchList {
+
+    wineLista: Wine[];
+    count: number;
+
+    constructor(obj?: any) {
+        this.wineLista = obj && obj.results.map((elem: any) => {
+            return new Wine(elem);
+        }) || [];
+        this.count = obj && obj.count || null;    
+    }        
+
+}
+
+-------------------------------------------------------------------
+
+service.ts:
+
+	getAll(params: any): Observable<WineSearchList> {
+        let queryParams = {};
+        if(params) {
+            queryParams = {
+                params: new HttpParams()
+                .set("pageSize", params.pageSize && params.pageSize.toString() || "")
+                .set("page", params.page && params.page.toString() || "")
+                .set("filter", params.filter && JSON.stringify(params.filter) || "")
+                .set("sort", params.sort && params.sort.toString() || "")
+                .set("sortDirection", params.sortDirection && params.sortDirection.toString() || "")
+            }
+        }
+        let obs: Observable<WineSearchList> = this.http.get(baseUrl, queryParams).pipe(
+            map(
+                (jsonOdgovor: any) => {                                        
+                    let odgovor = new WineSearchList(jsonOdgovor)
+                    return odgovor;
+                }
+            )
+        );
+        return obs;
+    }
+
+-----------------------------------------------------------------------------------------------------
+
+wine-list.component.ts:
+
+  wineList: Wine[] = [];
+  count: number = -1;
+  pageCount: number = -1;
+
+  ngOnInit(): void {                        
+    let obs: Observable<WineSearchList> = this.wineService.getAll(this.params);
+    obs.subscribe({
+      next: (odgovorSaServera: WineSearchList) => {                        
+        this.wineList = odgovorSaServera.wineLista;
+        this.count = odgovorSaServera.count;                
+        this.pageCount = Math.ceil(this.count/PAGE_SIZE);                                                
+      },
+      error: (err: any) => {
+        console.log(err.statusText);        
+      }
+    });         
+  }
+
+----------------------------------------------------------------------------------------------------------------------- 
+wine-list.component.html (parent-child):
+
+    <div class="row">
+        <div class="col">
+            <wc-table [wines]="wineList"></wc-table>
+        </div>
+    </div>
+-----------------------------------------------------------------------------------------------------------------------
+table.component.html (child element):
+
+<tr *ngFor="let itWine of wines">
+------------------------------------------------------------------------------------------------------------------------
+table.component.ts (child element):
+
+@Input() wines: Wine[] = []; 
+
+
+==========================================================================================================================
+
+
+2. Example with model only:
+
+resort-info.model.ts:
+
+export class ResortInfo {
+    _id: number;
+    name: string;
+
+    constructor(obj?:any) {
+        this._id = obj && obj._id || 0;
+        this.name = obj && obj.name || "";
+    }
+}
+
+-------------------------------------------------
+
+service.ts:
+
+  getInfo(): Observable<ResortInfo[]> {
+    return this.http.get(baseURL).pipe(map((data: any) => {
+      return data && data.map((elem: any) => new ResortInfo(elem)) || []
+    }))
+  }
+
+--------------------------------------------------------------------
+
+...component.ts:
+
+  resortInfoList: ResortInfo[] = [];
+
+  ngOnInit(): void {
+    this.service.getInfo().subscribe((resortInfoList: ResortInfo[]) => {
+      this.resortInfoList = resortInfoList
+    })
+  }
+-------------------------------------------------------------------------
+...component.html:
+<li class="nav-item" *ngFor="let info of resortInfoList">
+    <a class="nav-link" [routerLink]="['/resort', info._id]">{{info.name}}</a>
+</li>  
+
+
+
+  
+
+
+
